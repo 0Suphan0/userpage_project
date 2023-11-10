@@ -15,7 +15,8 @@ class UserPage extends StatelessWidget {
         children: [
           Expanded(
               flex: 1,
-              child: Text(projectTitle, style: TextStyle(fontSize: 40))),
+              child: Image.asset('assets/images/iWallet.png',)
+          ),
           Expanded(
             flex: 1,
             child: Padding(
