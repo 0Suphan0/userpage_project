@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iwallet_userpage_project/provider/user_provider.dart';
+import 'package:iwallet_userpage_project/screens/user_detail_page.dart';
 import 'package:provider/provider.dart';
+
+import '../entity/user.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -74,8 +77,11 @@ class _UserPageState extends State<UserPage> {
                     child: ListView.builder(
                       itemCount: users.length,
                       itemBuilder: (context, index) {
-                        return buildUserCard(users[index].name,
-                            users[index].username, Icons.chevron_right, index);
+                        return buildUserCard(
+                            users[index].name,
+                            users[index].username,
+                            Icons.chevron_right,
+                            users[index].id);
                       },
                     ),
                   ),
@@ -89,15 +95,15 @@ class _UserPageState extends State<UserPage> {
   }
 
   Widget buildUserCard(
-      String name, String username, IconData iconData, int index) {
+      String name, String username, IconData iconData, int id) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Card(
-        color: index % 4 == 1
+        color: id % 4 == 1
             ? Colors.yellow
-            : index % 4 == 2
+            : id % 4 == 2
                 ? Colors.blueAccent
-                : index % 4 == 3
+                : id % 4 == 3
                     ? Colors.green
                     : Colors.red,
         shape: RoundedRectangleBorder(
@@ -108,9 +114,19 @@ class _UserPageState extends State<UserPage> {
             child: Icon(Icons.person),
           ),
           title: Text(name, style: TextStyle(fontSize: 20)),
-          subtitle: Text(username, style: TextStyle(fontSize: 16)),
+          subtitle: Text('@$username', style: TextStyle(fontSize: 16)),
           trailing: Icon(iconData),
-          onTap: () {},
+          onTap: () async {
+            User? user = await Provider.of<UserProvider>(context, listen: false)
+                .getUserById(id);
+
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return UserDetailPopup(user: user);
+              },
+            );
+          },
         ),
       ),
     );

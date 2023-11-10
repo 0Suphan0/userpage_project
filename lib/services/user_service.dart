@@ -15,6 +15,7 @@ class UserService{
         id: json['id'],
         name: json['name'],
         username: json['username'],
+        email: json['email'],
         phoneNumber: json['phone'],
         address: json['address']['street'],
         city: json['address']['city'],
@@ -28,4 +29,34 @@ class UserService{
       return [];
     }
   }
+
+  Future<User?> getUserById(int id) async {
+    final url = 'https://jsonplaceholder.typicode.com/users/$id';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonData = json.decode(response.body);
+      User user = User(
+        id: jsonData['id'],
+        name: jsonData['name'],
+        username: jsonData['username'],
+        email: jsonData['email'],
+        phoneNumber: jsonData['phone'],
+        address: jsonData['address']['street'],
+        city: jsonData['address']['city'],
+        location: 'Lat: ${jsonData['address']['geo']['lat']}, Long: ${jsonData['address']['geo']['lng']}',
+      );
+
+      return user;
+    } else {
+      // Hata durumunda
+      print('Hata oluştu.');
+      return null;
+    }
+  }
+
+
+
+
+
 }

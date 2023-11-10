@@ -3,6 +3,7 @@ class User {
   final int id;
   final String name;
   final String username;
+  final String email;
   final String phoneNumber;
   final String address;
   final String city;
@@ -12,6 +13,7 @@ class User {
     required this.id,
     required this.name,
     required this.username,
+    required this.email,
     required this.phoneNumber,
     required this.address,
     required this.city,
