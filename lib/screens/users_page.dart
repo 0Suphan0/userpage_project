@@ -96,7 +96,7 @@ class _UserPageState extends State<UserPage> {
         color: index % 4 == 1
             ? Colors.yellow
             : index % 4 == 2
-                ? Colors.blue
+                ? Colors.blueAccent
                 : index % 4 == 3
                     ? Colors.green
                     : Colors.red,
