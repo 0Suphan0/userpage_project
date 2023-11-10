@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'iWallet',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor:Color.fromRGBO(2, 54, 113, 1)), // rgb iWallet icon ile aynı.
         useMaterial3: true,
       ),
       home: const UserPage(),
