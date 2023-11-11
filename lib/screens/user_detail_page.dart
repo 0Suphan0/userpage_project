@@ -27,23 +27,30 @@ class UserDetailPopup extends StatelessWidget {
           ),
           Column(
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(8.0),
                 child: CircleAvatar(
                   radius: 60,
                   backgroundColor: Colors.white,
-                  child: Icon(Icons.person, size: 60, color: Colors.blue),
+                  child: ClipOval(
+                    child: Image.network(
+                      user?.profilePhotoUrl ?? '',
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
               Text(
                 user?.name ?? 'N/A',
-                style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
                 '@${user?.username ?? 'N/A'}',
-                style: const TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ],
           ),

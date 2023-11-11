@@ -19,6 +19,7 @@ class _UserPageState extends State<UserPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      //listeyi doldur...
       Provider.of<UserProvider>(context, listen: false).getAllUsers();
     });
     // widget oluşturulduktan hemen sonra asenkron bir şekilde verilerin yüklenmesini ve sayfanın güncellenmesini sağla
@@ -77,11 +78,7 @@ class _UserPageState extends State<UserPage> {
                     child: ListView.builder(
                       itemCount: users.length,
                       itemBuilder: (context, index) {
-                        return buildUserCard(
-                            users[index].name,
-                            users[index].username,
-                            Icons.chevron_right,
-                            users[index].id);
+                        return buildUserCard(users[index], Icons.chevron_right);
                       },
                     ),
                   ),
@@ -94,32 +91,35 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  Widget buildUserCard(
-      String name, String username, IconData iconData, int id) {
+  Widget buildUserCard(User user, IconData iconData) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Card(
-        color: id % 4 == 1
+        color: user.id % 4 == 1
             ? Colors.yellow
-            : id % 4 == 2
+            : user.id % 4 == 2
                 ? Colors.blueAccent
-                : id % 4 == 3
+                : user.id % 4 == 3
                     ? Colors.green
                     : Colors.red,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
         child: ListTile(
-          leading: const CircleAvatar(
-            child: Icon(Icons.person),
+          leading: CircleAvatar(
+            child: ClipOval(
+              child: Image.network(
+                user.profilePhotoUrl,
+                width: 40,
+                height: 40,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-          title: Text(name, style: TextStyle(fontSize: 20)),
-          subtitle: Text('@$username', style: TextStyle(fontSize: 16)),
+          title: Text(user.name, style: TextStyle(fontSize: 20)),
+          subtitle: Text('@${user.username}', style: TextStyle(fontSize: 16)),
           trailing: Icon(iconData),
           onTap: () async {
-            User? user = await Provider.of<UserProvider>(context, listen: false)
-                .getUserById(id);
-
             showDialog(
               context: context,
               builder: (BuildContext context) {

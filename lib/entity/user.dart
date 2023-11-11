@@ -1,5 +1,4 @@
 class User {
-  // Model olarak kullanacağım entity...
   final int id;
   final String name;
   final String username;
@@ -8,6 +7,7 @@ class User {
   final String address;
   final String city;
   final String location;
+  String profilePhotoUrl; // Profil fotoğrafı için URL verildi..
 
   User({
     required this.id,
@@ -18,5 +18,6 @@ class User {
     required this.address,
     required this.city,
     required this.location,
+    required this.profilePhotoUrl,
   });
 }
