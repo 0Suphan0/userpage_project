@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:iwallet_userpage_project/provider/user_provider.dart';
 import 'package:iwallet_userpage_project/screens/user_detail_page.dart';
@@ -165,13 +167,21 @@ class _UserPageState extends State<UserPage> {
           subtitle: Text('@${user.username}', style: TextStyle(fontSize: 16)),
           trailing: Icon(iconData),
           onTap: () async {
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              // ekran dısına basınca kapanma özelligini devre dısı bırak. Yalnızca carpı isteniyor.
-              builder: (BuildContext context) {
-                return UserDetailPopup(user: user);
-              },
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                opaque: false,
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                    // arka planı blurluyor.
+                    child: ScaleTransition(
+                      scale: animation,
+                      child: UserDetailPopup(user: user),
+                    ),
+                  );
+                },
+              ),
             );
           },
         ),
