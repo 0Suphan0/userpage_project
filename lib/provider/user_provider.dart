@@ -33,6 +33,8 @@ class UserProvider extends ChangeNotifier {
 
     final user = await _service.getUserById(id);
     if (user != null) {
+      isLoadingId = false;
+      notifyListeners();
       return user;
     } else {
       print('hata');

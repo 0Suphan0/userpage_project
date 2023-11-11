@@ -15,14 +15,16 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   final String projectTitle = "iWallet Users";
 
+  // input alanı için konroller
+  TextEditingController searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      //listeyi doldur...
+      // Listeyi doldur...
       Provider.of<UserProvider>(context, listen: false).getAllUsers();
     });
-    // widget oluşturulduktan hemen sonra asenkron bir şekilde verilerin yüklenmesini ve sayfanın güncellenmesini sağla
   }
 
   @override
@@ -32,14 +34,15 @@ class _UserPageState extends State<UserPage> {
       appBar: AppBar(),
       body: Consumer<UserProvider>(
         builder: (context, userProvider, child) {
-          // Burada userProvider'ı state objem...
-          if (userProvider.isLoading) {
-            //yüklüyorsa indicator çalıştır..
+          if (userProvider.isLoading || userProvider.isLoadingId) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
+          //user tüm userlar
           final users = userProvider.users;
+          List<User> filteredUsers = _filterUsers(users);
+
           return Column(
             children: [
               Expanded(
@@ -50,18 +53,36 @@ class _UserPageState extends State<UserPage> {
                 flex: 1,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide(color: Colors.black),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: searchController,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                            labelText: 'Kullanıcı Ara',
+                          ),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(color: Colors.blue),
+                      IconButton(
+                        onPressed: () {
+                          searchController.clear();
+                          // carpiya basılınca contoler içerigini sıfırla.
+                          setState(() {});
+                        },
+                        icon: Icon(Icons.clear),
                       ),
-                      labelText: 'Kullanıcı Ara',
-                    ),
+                    ],
                   ),
                 ),
               ),
@@ -75,12 +96,21 @@ class _UserPageState extends State<UserPage> {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(10.0)),
                     ),
-                    child: ListView.builder(
-                      itemCount: users.length,
-                      itemBuilder: (context, index) {
-                        return buildUserCard(users[index], Icons.chevron_right);
-                      },
-                    ),
+                    child: filteredUsers.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: filteredUsers.length,
+                            itemBuilder: (context, index) {
+                              return buildUserCard(
+                                filteredUsers[index],
+                                Icons.chevron_right,
+                              );
+                            },
+                          )
+                        : const Center(
+                            child: Text(
+                              'Kullanıcı Bulunamadı!',
+                            ),
+                          ),
                   ),
                 ),
               ),
@@ -89,6 +119,22 @@ class _UserPageState extends State<UserPage> {
         },
       ),
     );
+  }
+
+  List<User> _filterUsers(List<User> users) {
+    String searchText = searchController.text.toLowerCase();
+    if (searchText.isEmpty) {
+      //eger input alanı boş ise
+      return users;
+    } else {
+      // Burada hem username alanına göre hem de name alanına göre sorgu atılıyor. Where ve ok notasyonuyla.
+      // dönen değer liste şeklinde geri dönülüyor.
+      return users
+          .where((user) =>
+              user.username.toLowerCase().contains(searchText) ||
+              user.name.toLowerCase().contains(searchText))
+          .toList();
+    }
   }
 
   Widget buildUserCard(User user, IconData iconData) {

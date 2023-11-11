@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'iWallet',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor:Color.fromRGBO(2, 54, 113, 1)), // genel tema rengi,rgb iWallet icon ile aynı.
+          colorScheme: ColorScheme.fromSeed(seedColor:Color.fromRGBO(2, 54, 113, 1)), // genel tema rengi,rgb icon'daki iWallet ile aynı.
           useMaterial3: true,
         ),
         home: const UserPage(),

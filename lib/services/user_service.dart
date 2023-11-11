@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import '../entity/user.dart';
 
 class UserService {
-
   Future<List<User>> getAllUsers() async {
     const url =
         'https://jsonplaceholder.typicode.com/users'; //istek atılan url.
