@@ -18,7 +18,7 @@ class UserDetailPopup extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                icon: const Icon(Icons.close, color: Colors.grey),
+                icon: const Icon(Icons.close, color: Colors.white),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -69,6 +69,7 @@ class UserDetailPopup extends StatelessWidget {
           ),
         ],
       ),
+
     );
   }
 

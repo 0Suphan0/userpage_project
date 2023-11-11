@@ -71,16 +71,15 @@ class _UserPageState extends State<UserPage> {
                               borderSide: BorderSide(color: Colors.blue),
                             ),
                             labelText: 'Kullanıcı Ara',
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.clear),
+                              onPressed: () {
+                                searchController.clear();
+                                setState(() {});
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          searchController.clear();
-                          // carpiya basılınca contoler içerigini sıfırla.
-                          setState(() {});
-                        },
-                        icon: Icon(Icons.clear),
                       ),
                     ],
                   ),
@@ -168,6 +167,8 @@ class _UserPageState extends State<UserPage> {
           onTap: () async {
             showDialog(
               context: context,
+              barrierDismissible: false,
+              // ekran dısına basınca kapanma özelligini devre dısı bırak. Yalnızca carpı isteniyor.
               builder: (BuildContext context) {
                 return UserDetailPopup(user: user);
               },
