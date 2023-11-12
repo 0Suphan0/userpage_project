@@ -10,16 +10,18 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context)=>UserProvider(),
+      create: (context) => UserProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'iWallet',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor:Color.fromRGBO(2, 54, 113, 1)), // genel tema rengi,rgb icon'daki iWallet ile aynı.
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color.fromRGBO(2, 54, 113, 1)),
+          // genel tema rengi, icon'daki iWallet yazısı rgb ile aynı.
+
           useMaterial3: true,
         ),
         home: const UserPage(),

@@ -4,6 +4,7 @@ import '../entity/user.dart';
 
 class UserDetailPopup extends StatelessWidget {
   final User? user;
+  final String notAvailableText = 'N/A';
 
   const UserDetailPopup({super.key, required this.user});
 
@@ -43,12 +44,12 @@ class UserDetailPopup extends StatelessWidget {
                 ),
               ),
               Text(
-                user?.name ?? 'N/A',
+                user?.name ?? notAvailableText,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
-                '@${user?.username ?? 'N/A'}',
+                '@${user?.username ?? notAvailableText}',
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
@@ -59,31 +60,31 @@ class UserDetailPopup extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Email: ${user?.email ?? 'N/A'}'),
-                Text('Telefon No: ${user?.phoneNumber ?? 'N/A'}'),
-                Text('Adres: ${user?.address ?? 'N/A'}'),
-                Text('Şehir: ${user?.city ?? 'N/A'}'),
-                Text('Konum: ${user?.location ?? 'N/A'}'),
+                Text('Email: ${user?.email ?? notAvailableText}'),
+                Text('Telefon No: ${user?.phoneNumber ?? notAvailableText}'),
+                Text('Adres: ${user?.address ?? notAvailableText}'),
+                Text('Şehir: ${user?.city ?? notAvailableText}'),
+                Text('Konum: ${user?.location ?? notAvailableText}'),
               ],
             ),
           ),
         ],
       ),
-
     );
   }
 
-  //cardın arka plan rengini hesaplar.
   Color calculateBackgroundColor(int id) {
-    switch (id % 4) {
+    switch (id % 5) {
       case 1:
-        return Colors.yellow;
+        return Colors.deepPurple;
       case 2:
-        return Colors.blueAccent;
-      case 3:
-        return Colors.green;
-      default:
         return Colors.red;
+      case 3:
+        return Colors.orange;
+      case 4:
+        return Colors.yellow;
+      default:
+        return Colors.green;
     }
   }
 }

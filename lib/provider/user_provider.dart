@@ -13,7 +13,7 @@ class UserProvider extends ChangeNotifier {
   bool isLoading = false;
   bool isLoadingId = false;
 
-  //servisten veriyi çek tamamlanınca notify listeners ile değişikliği kaydet..
+  //servisten veriyi çek tamamlanınca notify listeners ile değişikliği kaydet yayınla..
   Future<void> getAllUsers() async {
     isLoading = true;
     notifyListeners();
@@ -27,21 +27,26 @@ class UserProvider extends ChangeNotifier {
     // iki defa notifylistenir'ın sebebi veriti tamamen yükledi mi onun kontrolü için...
   }
 
-  Future<User?> getUserById(int id) async {
-    isLoadingId = true;
-    notifyListeners();
+// USER ID'YE GÖRE CEKILME IHTIYACI OLURSA DİYE YAZILDI.
 
-    final user = await _service.getUserById(id);
-    if (user != null) {
+/*
+    Future<User?> getUserById(int id) async {
+      isLoadingId = true;
+      notifyListeners();
+
+      final user = await _service.getUserById(id);
+      if (user != null) {
+        isLoadingId = false;
+        notifyListeners();
+        return user;
+      } else {
+        print('hata');
+      }
+
       isLoadingId = false;
       notifyListeners();
-      return user;
-    } else {
-      print('hata');
+      return null;
     }
 
-    isLoadingId = false;
-    notifyListeners();
-    return null;
-  }
+    */
 }

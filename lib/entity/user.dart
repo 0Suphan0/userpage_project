@@ -7,7 +7,7 @@ class User {
   final String address;
   final String city;
   final String location;
-  String profilePhotoUrl; // Profil fotoğrafı için URL verildi..
+  String profilePhotoUrl; // Profil fotoğrafı için URL field verildi (diger api'den gelecek)
 
   User({
     required this.id,

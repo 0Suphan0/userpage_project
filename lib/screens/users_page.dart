@@ -15,8 +15,6 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  final String projectTitle = "iWallet Users";
-
   // input alanı için konroller
   TextEditingController searchController = TextEditingController();
 
@@ -24,7 +22,8 @@ class _UserPageState extends State<UserPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      // Listeyi doldur...
+      // bunun sebebi tüm widget agacının cizilmesini bekle demek..
+      // user listesini doldur...
       Provider.of<UserProvider>(context, listen: false).getAllUsers();
     });
   }
@@ -32,17 +31,19 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false, //klavye input alanını daraltmasın.
       appBar: AppBar(),
       body: Consumer<UserProvider>(
         builder: (context, userProvider, child) {
-          if (userProvider.isLoading || userProvider.isLoadingId) {
+          if (userProvider.isLoading) {
+            //veri yükleme devam ediyorsa indicator
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          //user tüm userlar
+          //tüm userlar
           final users = userProvider.users;
+          // filtreleme yapıldıktan sonra user'lar.
           List<User> filteredUsers = _filterUsers(users);
 
           return Column(
@@ -61,7 +62,8 @@ class _UserPageState extends State<UserPage> {
                         child: TextField(
                           controller: searchController,
                           onChanged: (value) {
-                            setState(() {});
+                            setState(
+                                () {}); // setstate ile widget agacını değişiklik olunca yeniden çiz _filterUsers metodu çalışsın liste güncellensin.
                           },
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -142,13 +144,16 @@ class _UserPageState extends State<UserPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Card(
-        color: user.id % 4 == 1
-            ? Colors.yellow
-            : user.id % 4 == 2
-                ? Colors.blueAccent
-                : user.id % 4 == 3
-                    ? Colors.green
-                    : Colors.red,
+        //iWallet icondaki renklerin sıralamasına göre item'lara color ata..
+        color: user.id % 5 == 1
+            ? Colors.deepPurple
+            : user.id % 5 == 2
+                ? Colors.red
+                : user.id % 5 == 3
+                    ? Colors.orange
+                    : user.id % 5 == 4
+                        ? Colors.yellow
+                        : Colors.green,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
@@ -170,6 +175,7 @@ class _UserPageState extends State<UserPage> {
             Navigator.push(
               context,
               PageRouteBuilder(
+                //animasyon
                 opaque: false,
                 pageBuilder: (context, animation, secondaryAnimation) {
                   return BackdropFilter(
@@ -177,7 +183,7 @@ class _UserPageState extends State<UserPage> {
                     // arka planı blurluyor.
                     child: ScaleTransition(
                       scale: animation,
-                      child: UserDetailPopup(user: user),
+                      child: UserDetailPopup(user: user), //tıklanan ilgili karttaki user'ı detail page'e gönder.
                     ),
                   );
                 },

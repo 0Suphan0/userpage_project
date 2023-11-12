@@ -40,7 +40,23 @@ class UserService {
     }
   }
 
-  Future<User?> getUserById(int id) async {
+  Future<String> getUserProfilePhoto(int userId) async {
+    final url = 'https://picsum.photos/id/$userId/info';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(response.body);
+      return json['download_url'] ??
+          ''; // Eğer download_url varsa onu döndür yoksa boş
+    } else {
+      return '';
+    }
+  }
+
+// USER ID'YE GÖRE CEKILME IHTIYACI OLURSA DİYE YAZILDI.
+
+/*
+  Future<User?> getUserById(int id) async { // user id'ye göre çekilmek istenirse diye yazıldı...
     final url = 'https://jsonplaceholder.typicode.com/users/$id';
     final response = await http.get(Uri.parse(url));
 
@@ -66,17 +82,5 @@ class UserService {
       return null;
     }
   }
-
-  Future<String> getUserProfilePhoto(int userId) async {
-    final url = 'https://picsum.photos/id/$userId/info';
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(response.body);
-      return json['download_url'] ??
-          ''; // Eğer download_url varsa onu döndür yoksa boş
-    } else {
-      return '';
-    }
-  }
+*/
 }
