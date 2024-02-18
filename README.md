@@ -42,6 +42,5 @@ Uygulama Akış Senaryosu
 <img src="ProjectSS/2.png" width="auto">
 <img src="ProjectSS/3.png" width="auto">
 <img src="ProjectSS/4.png" width="auto">
-<img src="ProjectSS/5.png" width="auto">
 
 
